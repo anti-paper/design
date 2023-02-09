@@ -307,6 +307,8 @@
   - 詳細
     - 登録
     - 取得
+    - 名前変更
+    - パスワード変更
     - ログイン
     - ログアウト
     - 削除
@@ -326,20 +328,20 @@
   - 詳細
     - 取得
     - 登録
-    - 更新
+    - 変更
     - 削除
   - 関連データ
   - 筋トレメニュー
 - 筋トレメニュー入力方法
   - 詳細
     - 取得
-    - 更新
+    - 変更
   - 関連データ
-    - 筋トレメニュー入力方法
+    - ユーザ
 - 筋トレ回数
   - 詳細
     - 取得
-    - 更新
+    - 変更
   - 関連データ
     - 筋トレ回数
 #### 5-2-4.データ
@@ -399,6 +401,7 @@
     - menu(string)
     - order(int)
     - user_id(bigInt)
+    - delete_flag(boolean)
     - created_at(timestamp)
     - updated_at(timestamp)
     - deleted_at(timestamp)
@@ -415,7 +418,9 @@
     - id(bigIncrement)
     - times(int)
     - user_id(bigInt)
+    - delete_flag(boolean)
     - updated_at(timestamp)
+    - deleted_at(timestamp)
   - 処理（メソッド, レスポンスコード, エラーコード）
     - create(POST, 201, -)
     - show(GET, 200, 404)
@@ -437,7 +442,7 @@
   |--|--|--|
   |要件定義書|Visual Studio Code|README.md|
   |画面設計書|Draw.io Integration(Visual Studio Code)|display.drawio<br>display-画面名.svg|
-  |API設計書|Stoplight|api.yaml|
+  |API設計書|OpenAPI Editor(Visual Studio Code)|api.yml|
   |DB定義書|A5:SQL Mk-2|db.xlsx|
 - テスト
   - テスト環境

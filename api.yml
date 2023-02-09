@@ -1,0 +1,135 @@
+openapi: '3.0.2'
+info:
+  title: Muscle APIs
+  version: '0.0.0'
+servers:
+  - url: https://{env}api-muscle-management.com/api
+    variables:
+      env:
+        default: dev-
+  - url: https://{host}:{port}/api
+    variables:
+      host:
+        default: localhost
+      port:
+        default: '9000'
+paths:
+  /users:
+    get:
+      tags:
+        - users
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+components:
+  schemas:
+    User:
+      properties:
+        id:
+          type: integer
+          description: bigIncrement<br>primary key
+        name:
+          type: string
+          description: unique(register, update only on active)<br>required<br>max:20<br>string
+        password:
+          type: string
+          description: required<br>min:8<br>max:255<br>number and string and symbol
+        method:
+          type: integer
+        delete_flag:
+          type: boolean
+        created_at:
+          type: string
+          description: timestamp
+        updated_at:
+          type: string
+          description: timestamp
+        deleted_at:
+          type: string
+          description: timestamp
+    Token:
+      properties:
+        id:
+          type: integer
+          description: bigIncrement
+        token:
+          type: string
+          description: length=255
+        user_id:
+          type: integer
+          description: bigIncrement
+        created_at:
+          type: string
+          description: timestamp
+        expired_at:
+          type: string
+          description: timestamp
+    Log:
+      properties:
+        id:
+          type: integer
+          description: bigIncrement
+        log_date:
+          type: string
+          description: date
+        menu:
+          type: string
+        times:
+          type: integer
+        user_id:
+          type: integer
+          description: bigIncrement
+        delete_flag:
+          type: boolean
+        created_at:
+          type: string
+          description: timestamp
+        deleted_at:
+          type: string
+          description: timestamp
+    Menu:
+      properties:
+        id:
+          type: integer
+          description: bigIncrement
+        menu:
+          type: string
+          description: unique(register only per user)<br>required<br>max:15<br>string
+        order:
+          type: integer
+        user_id:
+          type: integer
+          description: bigIncrement
+        delete_flag:
+          type: boolean
+        created_at:
+          type: string
+          description: timestamp
+        updated_at:
+          type: string
+          description: timestamp
+        deleted_at:
+          type: string
+          description: timestamp
+    Time:
+      properties:
+        id:
+          type: integer
+          description: bigIncrement
+        times:
+          type: integer
+        user_id:
+          type: integer
+          description: bigIncrement
+        delete_flag:
+          type: boolean
+        updated_at:
+          type: string
+          description: timestamp
+        deleted_at:
+          type: string
+          description: timestamp
