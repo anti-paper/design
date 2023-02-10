@@ -118,6 +118,8 @@
       - 「ユーザ名変更」
       - 「パスワード変更」
       - 「ホーム画面に戻る」
+  - 機能
+    - ユーザ情報取得
   - 画面遷移
     - ユーザ名変更
     - パスワード変更
@@ -442,7 +444,7 @@
   |--|--|--|
   |要件定義書|Visual Studio Code|README.md|
   |画面設計書|Draw.io Integration(Visual Studio Code)|display.drawio<br>display-画面名.svg|
-  |API設計書|OpenAPI Editor(Visual Studio Code)|api.yml|
+  |API設計書|OpenAPI Editor(Visual Studio Code)|api.yaml|
   |DB定義書|A5:SQL Mk-2|db.xlsx|
 - テスト
   - テスト環境

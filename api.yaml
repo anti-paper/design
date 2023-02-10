@@ -7,7 +7,7 @@ servers:
     variables:
       env:
         default: dev-
-  - url: https://{host}:{port}/api
+  - url: http://{host}:{port}/api
     variables:
       host:
         default: localhost
@@ -28,6 +28,9 @@ paths:
 components:
   schemas:
     User:
+      required:
+        - name
+        - password
       properties:
         id:
           type: integer
