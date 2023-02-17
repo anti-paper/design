@@ -1,7 +1,9 @@
-openapi: '3.0.2'
+openapi: 3.0.0
+
 info:
   title: Muscle APIs
-  version: '0.0.0'
+  version: 0.0.0
+
 servers:
   - url: https://{env}api-muscle-management.com/api
     variables:
@@ -13,126 +15,331 @@ servers:
         default: localhost
       port:
         default: '9000'
+
+tags:
+  - name: auth
+  - name: users
+  - name: logs
+  - name: menus
+  - name: times
+
 paths:
+  /auth/register:
+    post:
+      tags: [auth]
+      requestBody:
+        $ref: '#/components/requestBodies/register'
+      responses:
+        201:
+          $ref: '#/components/responses/register'
+  /auth/login:
+    post:
+      tags: [auth]
+      requestBody:
+        $ref: '#/components/requestBodies/register'
+      responses:
+        200:
+          $ref: '#/components/responses/login'
+  /auth/revival:
+    post:
+      tags: [auth]
+      requestBody:
+        $ref: '#/components/requestBodies/register'
+      responses:
+        200:
+          $ref: '#/components/responses/revival'
   /users:
     get:
-      tags:
-        - users
+      tags: [users]
       responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
+        200:
+          $ref: '#/components/responses/users'
+  /users/{id}:
+    get:
+      tags: [users]
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/userId'
+      responses:
+        200:
+          $ref: '#/components/responses/user'
+        401:
+          $ref: '#/components/responses/unAuthorizedUser'
+        404:
+          $ref: '#/components/responses/ngUser'
+    put:
+      tags: [users]
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/userId'
+      requestBody:
+        $ref: '#/components/requestBodies/updateUser'
+      responses:
+        200:
+          $ref: '#/components/responses/updatedUser'
+        401:
+          $ref: '#/components/responses/unAuthorizedUser'
+        404:
+          $ref: '#/components/responses/ngUser'
+    delete:
+      tags: [users]
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/userId'
+      responses:
+        200:
+          $ref: '#/components/responses/deletedUser'
+        401:
+          $ref: '#/components/responses/unAuthorizedUser'
+        404:
+          $ref: '#/components/responses/ngUser'
+
 components:
+  securitySchemes:
+    Bearer:
+      type: http
+      scheme: bearer
+  parameters:
+    userId:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+  requestBodies:
+    register:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                example: anti-paper
+              password:
+                type: string
+                example: anti7450
+    updateUser:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                example: tanaka
+              password:
+                type: string
+                example: tanaka55
+              method:
+                type: integer
+                example: 1
+  responses:
+    register:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: registered
+              data:
+                $ref: '#/components/schemas/registered'
+              error:
+                type: string
+                example: ''
+    login:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: login
+              data:
+                $ref: '#/components/schemas/registered'
+              error:
+                type: string
+                example: ''
+    revival:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: revival
+              data:
+                $ref: '#/components/schemas/registered'
+              error:
+                type: string
+                example: ''
+    users:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: got users
+              data:
+                $ref: '#/components/schemas/users'
+              error:
+                type: string
+                example: ''
+    user:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: got user
+              data:
+                $ref: '#/components/schemas/user'
+              error:
+                type: string
+                example: ''
+    updatedUser:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: updated user
+              data:
+                $ref: '#/components/schemas/updatedUser'
+              error:
+                type: string
+                example: ''
+    deletedUser:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: deleted user
+              data:
+                type: object
+                example: ''
+              error:
+                type: string
+                example: ''
+    unAuthorizedUser:
+      description: NG
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: ''
+              data:
+                type: object
+                example: ''
+              error:
+                type: string
+                example: 'unAuthorized'
+    ngUser:
+      description: NG
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: ''
+              data:
+                type: object
+                example: ''
+              error:
+                type: string
+                example: 'not found'
   schemas:
-    User:
-      required:
-        - name
-        - password
+    registered:
+      type: object
       properties:
         id:
           type: integer
-          description: bigIncrement<br>primary key
-        name:
-          type: string
-          description: unique(register, update only on active)<br>required<br>max:20<br>string
-        password:
-          type: string
-          description: required<br>min:8<br>max:255<br>number and string and symbol
         method:
           type: integer
-        delete_flag:
-          type: boolean
-        created_at:
-          type: string
-          description: timestamp
-        updated_at:
-          type: string
-          description: timestamp
-        deleted_at:
-          type: string
-          description: timestamp
-    Token:
-      properties:
-        id:
-          type: integer
-          description: bigIncrement
         token:
           type: string
-          description: length=255
-        user_id:
-          type: integer
-          description: bigIncrement
-        created_at:
-          type: string
-          description: timestamp
-        expired_at:
-          type: string
-          description: timestamp
-    Log:
+      example:
+        id: 1
+        method: 0
+        token: skdjgflskjdfdgkadhfkgahsdlfgdfkgjddlfkgjs;lkfdjhlksjdhfglhkjdfg;hlkdfghdjkfglhdfgdfgjsdjfglskjdfglksjhdflgjhsfghsdfhkjsdfkghskdfghsdfgssdkjfhkgsdf;lajsdlfgkjhgsldkgfnbkldfjghlsdflkbndfhksfdsdkfjhglksjdf;ghlkjdfglg;ksgfljhksrl;fdnjlgfkj;lhksfghdjfghkjdfg;h
+    users:
+      type: array
+      items:
+        properties:
+          name:
+            type: string
+      example:
+      - name: anti-paper
+      - name: love-paper
+    user:
+      type: object
       properties:
-        id:
-          type: integer
-          description: bigIncrement
-        log_date:
+        name:
           type: string
-          description: date
-        menu:
-          type: string
-        times:
+        password_length:
           type: integer
-        user_id:
+        method:
           type: integer
-          description: bigIncrement
-        delete_flag:
-          type: boolean
         created_at:
           type: string
-          description: timestamp
-        deleted_at:
-          type: string
-          description: timestamp
-    Menu:
-      properties:
-        id:
-          type: integer
-          description: bigIncrement
-        menu:
-          type: string
-          description: unique(register only per user)<br>required<br>max:15<br>string
-        order:
-          type: integer
-        user_id:
-          type: integer
-          description: bigIncrement
-        delete_flag:
-          type: boolean
-        created_at:
-          type: string
-          description: timestamp
         updated_at:
           type: string
-          description: timestamp
-        deleted_at:
+        token:
           type: string
-          description: timestamp
-    Time:
+      example:
+        name: anti-paper
+        password_length: 8
+        method: 0
+        created_at: 2023-01-01
+        updated_at: 2023-01-01
+        token: skdjgflskjdfdgkadhfkgahsdlfgdfkgjddlfkgjs;lkfdjhlksjdhfglhkjdfg;hlkdfghdjkfglhdfgdfgjsdjfglskjdfglksjhdflgjhsfghsdfhkjsdfkghskdfghsdfgssdkjfhkgsdf;lajsdlfgkjhgsldkgfnbkldfjghlsdflkbndfhksfdsdkfjhglksjdf;ghlkjdfglg;ksgfljhksrl;fdnjlgfkj;lhksfghdjfghkjdfg;h
+    updatedUser:
+      type: object
       properties:
-        id:
+        name:
+          type: string
+        password_length:
           type: integer
-          description: bigIncrement
-        times:
+        method:
           type: integer
-        user_id:
-          type: integer
-          description: bigIncrement
-        delete_flag:
-          type: boolean
+        created_at:
+          type: string
         updated_at:
           type: string
-          description: timestamp
-        deleted_at:
+        token:
           type: string
-          description: timestamp
+      example:
+        name: tanaka
+        password_length: 8
+        method: 1
+        created_at: 2023-01-01
+        updated_at: 2023-12-31
+        token: ksjadhkgadhfkjghsdfkghskdjfhgskjhdfgjkshdkjhbgskdjfkasdlfhgaisuhdgksndfkjghaksvnkshdfkausdgthbs ndfj,bhsdjkgfv dfjghsn,kdj.dflkgjnldkjfngjdnfgnsdk,jfhngk,sfdngkdfng,gnfgjhgnfd,gbndfgk,hndfdskjfhnkdljfngkjdfhkglsknflkghusdflkhndfgkgmsfgkjhdlsidfjhglndkfjgn
