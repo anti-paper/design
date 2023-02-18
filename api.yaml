@@ -33,7 +33,7 @@ paths:
         201:
           $ref: '#/components/responses/register'
   /auth/login:
-    post:
+    put:
       tags: [auth]
       requestBody:
         $ref: '#/components/requestBodies/register'
@@ -41,13 +41,41 @@ paths:
         200:
           $ref: '#/components/responses/login'
   /auth/revival:
-    post:
+    put:
       tags: [auth]
       requestBody:
         $ref: '#/components/requestBodies/register'
       responses:
         200:
           $ref: '#/components/responses/revival'
+  /auth/{id}/logout:
+    delete:
+      tags: [auth]
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/userId'
+      responses:
+        200:
+          $ref: '#/components/responses/logout'
+        401:
+          $ref: '#/components/responses/unAuthorizedUser'
+        404:
+          $ref: '#/components/responses/ngUser'
+  /auth/{id}/unregister:
+    delete:
+      tags: [auth]
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/userId'
+      responses:
+        200:
+          $ref: '#/components/responses/unregister'
+        401:
+          $ref: '#/components/responses/unAuthorizedUser'
+        404:
+          $ref: '#/components/responses/ngUser'
   /users:
     get:
       tags: [users]
@@ -83,19 +111,14 @@ paths:
           $ref: '#/components/responses/unAuthorizedUser'
         404:
           $ref: '#/components/responses/ngUser'
-    delete:
-      tags: [users]
+  /logs:
+    get:
+      tags: [logs]
       security:
         - Bearer: []
-      parameters:
-        - $ref: '#/components/parameters/userId'
       responses:
         200:
-          $ref: '#/components/responses/deletedUser'
-        401:
-          $ref: '#/components/responses/unAuthorizedUser'
-        404:
-          $ref: '#/components/responses/ngUser'
+          $ref: '#/components/responses/logs'
 
 components:
   securitySchemes:
@@ -180,6 +203,38 @@ components:
                 example: revival
               data:
                 $ref: '#/components/schemas/registered'
+              error:
+                type: string
+                example: ''
+    logout:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: logout
+              data:
+                type: object
+                example: ''
+              error:
+                type: string
+                example: ''
+    unregister:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: unregister
+              data:
+                type: object
+                example: ''
               error:
                 type: string
                 example: ''
@@ -276,6 +331,21 @@ components:
               error:
                 type: string
                 example: 'not found'
+    logs:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: got logs
+              data:
+                $ref: '#/components/schemas/logs'
+              error:
+                type: string
+                example: ''
   schemas:
     registered:
       type: object
@@ -324,22 +394,28 @@ components:
     updatedUser:
       type: object
       properties:
-        name:
-          type: string
-        password_length:
-          type: integer
-        method:
-          type: integer
-        created_at:
-          type: string
-        updated_at:
-          type: string
         token:
           type: string
       example:
-        name: tanaka
-        password_length: 8
-        method: 1
-        created_at: 2023-01-01
-        updated_at: 2023-12-31
+        token: ksjadhkgadhfkjghsdfkghskdjfhgskjhdfgjkshdkjhbgskdjfkasdlfhgaisuhdgksndfkjghaksvnkshdfkausdgthbs ndfj,bhsdjkgfv dfjghsn,kdj.dflkgjnldkjfngjdnfgnsdk,jfhngk,sfdngkdfng,gnfgjhgnfd,gbndfgk,hndfdskjfhnkdljfngkjdfhkglsknflkghusdflkhndfgkgmsfgkjhdlsidfjhglndkfjgn
+    logs:
+      type: array
+      items:
+        properties:
+          menu:
+            type: string
+          date:
+            type: string
+          times:
+            type: integer
+          token:
+            type: string
+      example:
+      - menu: 腕立て伏せ
+        date: 2023-01-01
+        times: 50
+        token: skdjgflskjdfdgkadhfkgahsdlfgdfkgjddlfkgjs;lkfdjhlksjdhfglhkjdfg;hlkdfghdjkfglhdfgdfgjsdjfglskjdfglksjhdflgjhsfghsdfhkjsdfkghskdfghsdfgssdkjfhkgsdf;lajsdlfgkjhgsldkgfnbkldfjghlsdflkbndfhksfdsdkfjhglksjdf;ghlkjdfglg;ksgfljhksrl;fdnjlgfkj;lhksfghdjfghkjdfg;h
+      - menu: 腹筋
+        date: 2023-01-02
+        times: 50
         token: ksjadhkgadhfkjghsdfkghskdjfhgskjhdfgjkshdkjhbgskdjfkasdlfhgaisuhdgksndfkjghaksvnkshdfkausdgthbs ndfj,bhsdjkgfv dfjghsn,kdj.dflkgjnldkjfngjdnfgnsdk,jfhngk,sfdngkdfng,gnfgjhgnfd,gbndfgk,hndfdskjfhnkdljfngkjdfhkglsknflkghusdflkhndfgkgmsfgkjhdlsidfjhglndkfjgn
