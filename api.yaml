@@ -48,7 +48,7 @@ paths:
       responses:
         200:
           $ref: '#/components/responses/revival'
-  /auth/{id}/logout:
+  /auth/{userId}/logout:
     delete:
       tags: [auth]
       security:
@@ -61,8 +61,8 @@ paths:
         401:
           $ref: '#/components/responses/unAuthorizedUser'
         404:
-          $ref: '#/components/responses/ngUser'
-  /auth/{id}/unregister:
+          $ref: '#/components/responses/ng'
+  /auth/{userId}/unregister:
     delete:
       tags: [auth]
       security:
@@ -75,14 +75,14 @@ paths:
         401:
           $ref: '#/components/responses/unAuthorizedUser'
         404:
-          $ref: '#/components/responses/ngUser'
+          $ref: '#/components/responses/ng'
   /users:
     get:
       tags: [users]
       responses:
         200:
           $ref: '#/components/responses/users'
-  /users/{id}:
+  /users/{userId}:
     get:
       tags: [users]
       security:
@@ -95,7 +95,7 @@ paths:
         401:
           $ref: '#/components/responses/unAuthorizedUser'
         404:
-          $ref: '#/components/responses/ngUser'
+          $ref: '#/components/responses/ng'
     put:
       tags: [users]
       security:
@@ -110,15 +110,158 @@ paths:
         401:
           $ref: '#/components/responses/unAuthorizedUser'
         404:
-          $ref: '#/components/responses/ngUser'
-  /logs:
+          $ref: '#/components/responses/ng'
+  /user/{userId}/logs:
     get:
       tags: [logs]
       security:
         - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/userId'
       responses:
         200:
           $ref: '#/components/responses/logs'
+        401:
+          $ref: '#/components/responses/unAuthorizedUser'
+        404:
+          $ref: '#/components/responses/ng'
+  /user/{userId}/logs/create:
+    post:
+      tags: [logs]
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/userId'
+      requestBody:
+        $ref: '#/components/requestBodies/createLog'
+      responses:
+        200:
+          $ref: '#/components/responses/createdLog'
+        401:
+          $ref: '#/components/responses/unAuthorizedUser'
+        404:
+          $ref: '#/components/responses/ng'
+  /user/{userId}/logs/output:
+    get:
+      tags: [logs]
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/userId'
+      requestBody:
+        $ref: '#/components/requestBodies/outputLog'
+      responses:
+        200:
+          $ref: '#/components/responses/outputtedLog'
+        401:
+          $ref: '#/components/responses/unAuthorizedUser'
+        404:
+          $ref: '#/components/responses/ng'
+  /user/{userId}/logs/{logId}:
+    delete:
+      tags: [logs]
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/userId'
+        - $ref: '#/components/parameters/logId'
+      responses:
+        200:
+          $ref: '#/components/responses/deletedLog'
+        401:
+          $ref: '#/components/responses/unAuthorizedUser'
+        404:
+          $ref: '#/components/responses/ng'
+  /user/{userId}/menus:
+    get:
+      tags: [menus]
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/userId'
+      responses:
+        200:
+          $ref: '#/components/responses/menus'
+        401:
+          $ref: '#/components/responses/unAuthorizedUser'
+        404:
+          $ref: '#/components/responses/ng'
+  /user/{userId}/menus/create:
+    post:
+      tags: [menus]
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/userId'
+      requestBody:
+        $ref: '#/components/requestBodies/createMenu'
+      responses:
+        200:
+          $ref: '#/components/responses/createdMenu'
+        401:
+          $ref: '#/components/responses/unAuthorizedUser'
+        404:
+          $ref: '#/components/responses/ng'
+  /user/{userId}/menus/{menuId}:
+    put:
+      tags: [menus]
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/userId'
+        - $ref: '#/components/parameters/menuId'
+      requestBody:
+        $ref: '#/components/requestBodies/updateMenu'
+      responses:
+        200:
+          $ref: '#/components/responses/updatedMenu'
+        401:
+          $ref: '#/components/responses/unAuthorizedUser'
+        404:
+          $ref: '#/components/responses/ng'
+    delete:
+      tags: [menus]
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/userId'
+        - $ref: '#/components/parameters/menuId'
+      responses:
+        200:
+          $ref: '#/components/responses/deletedMenu'
+        401:
+          $ref: '#/components/responses/unAuthorizedUser'
+        404:
+          $ref: '#/components/responses/ng'
+  /user/{userId}/times:
+    get:
+      tags: [times]
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/userId'
+      responses:
+        200:
+          $ref: '#/components/responses/times'
+        401:
+          $ref: '#/components/responses/unAuthorizedUser'
+        404:
+          $ref: '#/components/responses/ng'
+    put:
+      tags: [times]
+      security:
+        - Bearer: []
+      parameters:
+        - $ref: '#/components/parameters/userId'
+      requestBody:
+        $ref: '#/components/requestBodies/updateTime'
+      responses:
+        200:
+          $ref: '#/components/responses/updatedTime'
+        401:
+          $ref: '#/components/responses/unAuthorizedUser'
+        404:
+          $ref: '#/components/responses/ng'
 
 components:
   securitySchemes:
@@ -127,7 +270,19 @@ components:
       scheme: bearer
   parameters:
     userId:
-      name: id
+      name: userId
+      in: path
+      required: true
+      schema:
+        type: integer
+    logId:
+      name: logId
+      in: path
+      required: true
+      schema:
+        type: integer
+    menuId:
+      name: menuId
       in: path
       required: true
       schema:
@@ -160,6 +315,66 @@ components:
               method:
                 type: integer
                 example: 1
+    createLog:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              menu:
+                type: string
+                example: 腕立て伏せ
+              date:
+                type: string
+                example: 2023-01-01
+              times:
+                type: integer
+                example: 50
+    outputLog:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              start_date:
+                type: string
+                example: 2023-01-01
+              end_date:
+                type: string
+                example: 2023-12-31
+    createMenu:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              menu:
+                type: string
+                example: 腕立て伏せ
+              order:
+                type: integer
+                example: 1
+    updateMenu:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              menu:
+                type: string
+                example: スクワット
+              order:
+                type: integer
+                example: 3
+    updateTime:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              times:
+                type: integer
+                example: 60
   responses:
     register:
       description: OK
@@ -315,7 +530,7 @@ components:
               error:
                 type: string
                 example: 'unAuthorized'
-    ngUser:
+    ng:
       description: NG
       content:
         application/json:
@@ -342,11 +557,164 @@ components:
                 type: string
                 example: got logs
               data:
-                $ref: '#/components/schemas/logs'
+                type: object
+                properties:
+                  logs:
+                    $ref: '#/components/schemas/logs'
+                  token:
+                    $ref: '#/components/schemas/token'
+              error:
+                type: string
+                example: ''
+    createdLog:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: created log
+              data:
+                $ref: '#/components/schemas/log'
+              error:
+                type: string
+                example: ''
+    outputtedLog:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: outputted log
+              data:
+                $ref: '#/components/schemas/log'
+              error:
+                type: string
+                example: ''
+    deletedLog:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: deleted log
+              data:
+                $ref: '#/components/schemas/log'
+              error:
+                type: string
+                example: ''
+    menus:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: got menus
+              data:
+                type: object
+                properties:
+                  logs:
+                    $ref: '#/components/schemas/menus'
+                  token:
+                    $ref: '#/components/schemas/token'
+              error:
+                type: string
+                example: ''
+    createdMenu:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: created menu
+              data:
+                $ref: '#/components/schemas/token'
+              error:
+                type: string
+                example: ''
+    updatedMenu:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: updated menu
+              data:
+                $ref: '#/components/schemas/token'
+              error:
+                type: string
+                example: ''
+    deletedMenu:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: deleted menu
+              data:
+                $ref: '#/components/schemas/token'
+              error:
+                type: string
+                example: ''
+    times:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: got times
+              data:
+                type: object
+                properties:
+                  times:
+                    $ref: '#/components/schemas/times'
+                  token:
+                    $ref: '#/components/schemas/token'
+              error:
+                type: string
+                example: ''
+    updatedTime:
+      description: OK
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+                example: updated time
+              data:
+                $ref: '#/components/schemas/token'
               error:
                 type: string
                 example: ''
   schemas:
+    token:
+      type: string
+      example: ksjadhkgadhfkjghsdfkghskdjfhgskjhdfgjkshdkjhbgskdjfkasdlfhgaisuhdgksndfkjghaksvnkshdfkausdgthbs ndfj,bhsdjkgfv dfjghsn,kdj.dflkgjnldkjfngjdnfgnsdk,jfhngk,sfdngkdfng,gnfgjhgnfd,gbndfgk,hndfdskjfhnkdljfngkjdfhkglsknflkghusdflkhndfgkgmsfgkjhdlsidfjhglndkfjgn
     registered:
       type: object
       properties:
@@ -396,8 +764,7 @@ components:
       properties:
         token:
           type: string
-      example:
-        token: ksjadhkgadhfkjghsdfkghskdjfhgskjhdfgjkshdkjhbgskdjfkasdlfhgaisuhdgksndfkjghaksvnkshdfkausdgthbs ndfj,bhsdjkgfv dfjghsn,kdj.dflkgjnldkjfngjdnfgnsdk,jfhngk,sfdngkdfng,gnfgjhgnfd,gbndfgk,hndfdskjfhnkdljfngkjdfhkglsknflkghusdflkhndfgkgmsfgkjhdlsidfjhglndkfjgn
+          example: ksjadhkgadhfkjghsdfkghskdjfhgskjhdfgjkshdkjhbgskdjfkasdlfhgaisuhdgksndfkjghaksvnkshdfkausdgthbs ndfj,bhsdjkgfv dfjghsn,kdj.dflkgjnldkjfngjdnfgnsdk,jfhngk,sfdngkdfng,gnfgjhgnfd,gbndfgk,hndfdskjfhnkdljfngkjdfhkglsknflkghusdflkhndfgkgmsfgkjhdlsidfjhglndkfjgn
     logs:
       type: array
       items:
@@ -414,8 +781,31 @@ components:
       - menu: 腕立て伏せ
         date: 2023-01-01
         times: 50
-        token: skdjgflskjdfdgkadhfkgahsdlfgdfkgjddlfkgjs;lkfdjhlksjdhfglhkjdfg;hlkdfghdjkfglhdfgdfgjsdjfglskjdfglksjhdflgjhsfghsdfhkjsdfkghskdfghsdfgssdkjfhkgsdf;lajsdlfgkjhgsldkgfnbkldfjghlsdflkbndfhksfdsdkfjhglksjdf;ghlkjdfglg;ksgfljhksrl;fdnjlgfkj;lhksfghdjfghkjdfg;h
       - menu: 腹筋
         date: 2023-01-02
         times: 50
-        token: ksjadhkgadhfkjghsdfkghskdjfhgskjhdfgjkshdkjhbgskdjfkasdlfhgaisuhdgksndfkjghaksvnkshdfkausdgthbs ndfj,bhsdjkgfv dfjghsn,kdj.dflkgjnldkjfngjdnfgnsdk,jfhngk,sfdngkdfng,gnfgjhgnfd,gbndfgk,hndfdskjfhnkdljfngkjdfhkglsknflkghusdflkhndfgkgmsfgkjhdlsidfjhglndkfjgn
+    log:
+      type: object
+      properties:
+          token:
+            type: string
+            example: ksjadhkgadhfkjghsdfkghskdjfhgskjhdfgjkshdkjhbgskdjfkasdlfhgaisuhdgksndfkjghaksvnkshdfkausdgthbs ndfj,bhsdjkgfv dfjghsn,kdj.dflkgjnldkjfngjdnfgnsdk,jfhngk,sfdngkdfng,gnfgjhgnfd,gbndfgk,hndfdskjfhnkdljfngkjdfhkglsknflkghusdflkhndfgkgmsfgkjhdlsidfjhglndkfjgn
+    menus:
+      type: object
+      properties:
+        id:
+          type: integer
+        menu:
+          type: string
+        order:
+          type: integer
+      example:
+        - id: 1
+          menu: 腕立て伏せ
+          order: 1
+        - id: 2
+          menu: 腹筋
+          order: 2
+    times:
+      type: integer
+      example: 50
