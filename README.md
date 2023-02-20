@@ -330,7 +330,7 @@
     - id(bigIncrement)
     - name(string)
     - password(string)
-    - method(int)
+    - method(integer)
     - delete_flag(boolean)
     - created_at(timestamp)
     - updated_at(timestamp)
@@ -339,13 +339,13 @@
     - id
   - リレーション
     - id
-      - tokens_user_id
+      - tokens-user_id
         - 一対多
-      - logs_user_id
+      - logs-user_id
         - 一対多
-      - menus_user_id
+      - menus-user_id
         - 一対多
-      - times_user_id
+      - times-user_id
         - 一対一
 - トークン
   - テーブル名
@@ -353,24 +353,24 @@
   - カラム（型）
     - id(bigIncrement)
     - token(string)
-    - user_id(bigInt)
+    - user_id(bigInteger)
     - created_at(timestamp)
     - expired_at(timestamp)
   - 主キー
     - id
   - リレーション
     - user_id
-      - users_id
+      - users-id
         - 多対一
 - 筋トレ記録
   - テーブル名
     - logs
   - カラム（型）
     - id(bigIncrement)
-    - log_date(date)
+    - log_date(timestamp)
     - menu(string)
-    - times(int)
-    - user_id(bigInt)
+    - times(integer)
+    - user_id(bigInteger)
     - delete_flag(boolean)
     - created_at(timestamp)
     - deleted_at(timestamp)
@@ -378,7 +378,7 @@
     - id
   - リレーション
     - user_id
-      - users_id
+      - users-id
         - 多対一
 - 筋トレメニュー
   - テーブル名
@@ -386,8 +386,8 @@
   - カラム（型）
     - id(bigIncrement)
     - menu(string)
-    - order(int)
-    - user_id(bigInt)
+    - order(integer)
+    - user_id(bigInteger)
     - delete_flag(boolean)
     - created_at(timestamp)
     - updated_at(timestamp)
@@ -396,23 +396,22 @@
     - id
   - リレーション
     - user_id
-      - users_id
+      - users-id
         - 多対一
 - 筋トレ回数
   - テーブル名
     - times
   - カラム（型）
     - id(bigIncrement)
-    - times(int)
-    - user_id(bigInt)
+    - times(integer)
+    - user_id(bigInteger)
     - delete_flag(boolean)
     - updated_at(timestamp)
-    - deleted_at(timestamp)
   - 主キー
     - id
   - リレーション
     - user_id
-      - users_id
+      - users-id
         - 一対一
 ## 6.非機能要件
 - 管理ツール
