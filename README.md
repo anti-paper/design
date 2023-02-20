@@ -340,12 +340,18 @@
     - created_at(timestamp)
     - updated_at(timestamp)
     - deleted_at(timestamp)
-  - 処理（メソッド, レスポンスコード, エラーコード）
-    - create(POST, 201, -)
-    - index(GET, 200, -)
-    - show(GET, 200, 404)
-    - update(PUT, 200, 404)
-    - delete(DELETE, 200, 404)
+  - 主キー
+    - id
+  - リレーション
+    - id
+      - tokens_user_id
+        - 一対多
+      - logs_user_id
+        - 一対多
+      - menus_user_id
+        - 一対多
+      - times_user_id
+        - 一対一
 - トークン
   - テーブル名
     - tokens
@@ -355,10 +361,12 @@
     - user_id(bigInt)
     - created_at(timestamp)
     - expired_at(timestamp)
-  - 処理（メソッド, レスポンスコード, エラーコード）
-    - create(POST, 201, -)
-    - show(GET, 200, 404)
-    - delete(DELETE, 200, 404)
+  - 主キー
+    - id
+  - リレーション
+    - user_id
+      - users_id
+        - 多対一
 - 筋トレ記録
   - テーブル名
     - logs
@@ -371,11 +379,12 @@
     - delete_flag(boolean)
     - created_at(timestamp)
     - deleted_at(timestamp)
-  - 処理（メソッド, レスポンスコード, エラーコード）
-    - create(POST, 201, -)
-    - index(GET, 200, -)
-    - show(GET, 200, 404)
-    - delete(DELETE, 200, 404)
+  - 主キー
+    - id
+  - リレーション
+    - user_id
+      - users_id
+        - 多対一
 - 筋トレメニュー
   - テーブル名
     - menus
@@ -388,12 +397,12 @@
     - created_at(timestamp)
     - updated_at(timestamp)
     - deleted_at(timestamp)
-  - 処理（メソッド, レスポンスコード, エラーコード）
-    - create(POST, 201, -)
-    - index(GET, 200, -)
-    - show(GET, 200, 404)
-    - update(PUT, 200, 404)
-    - delete(DELETE, 200, 404)
+  - 主キー
+    - id
+  - リレーション
+    - user_id
+      - users_id
+        - 多対一
 - 筋トレ回数
   - テーブル名
     - times
@@ -404,11 +413,12 @@
     - delete_flag(boolean)
     - updated_at(timestamp)
     - deleted_at(timestamp)
-  - 処理（メソッド, レスポンスコード, エラーコード）
-    - create(POST, 201, -)
-    - show(GET, 200, 404)
-    - update(PUT, 200, 404)
-    - delete(DELETE, 200, 404)
+  - 主キー
+    - id
+  - リレーション
+    - user_id
+      - users_id
+        - 一対一
 ## 6.非機能要件
 - 管理ツール
   - タスク管理
