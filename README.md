@@ -1,10 +1,8 @@
 # 要件定義書
 ## 1.アプリケーション名
-|||
-|--|--|
-|正式名称|Muscle Management|
-|日本語名称|マッスルマネージメント|
-|略称|ますまね|
+|正式名称|日本語名称|略称|
+|--|--|--|
+|Muscle Management|マッスルマネージメント|ますまね|
 ## 2.アプリケーション種類
 - Web
 - Android
@@ -424,16 +422,19 @@
     |Web|muscleWeb|
     |Android|muscleAndroid|
     |iOS|muscleIos|
-- 要件定義・設計（GitHubリポジトリ「design」に成果物をまとめる）
-  |資料名|ツール|成果物|
-  |--|--|--|
-  |要件定義書|Visual Studio Code|README.md|
-  |画面設計書|Draw.io Integration(Visual Studio Code)|display.drawio<br>display-画面名.svg|
-  |API設計書|OpenAPI Editor(Visual Studio Code)|api.yaml|
-  |DB定義書|A5:SQL Mk-2|db.xlsx|
+- ドキュメント（GitHubリポジトリ「design」に成果物をまとめる）
+  - 要件定義書
+  - 画面遷移図
+  - ワイヤーフレーム
+  - API設計書
+  - ER図
 - テスト
   - テスト環境
-    - staging
+    |テスト種別|環境|
+    |--|--|
+    |単体テスト|localhost|
+    |結合テスト|develop|
+    |システムテスト|staging|
   - テスト対象
     - Web版
       - Edge
