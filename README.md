@@ -328,6 +328,7 @@
     - id(bigIncrement)
     - name(string)
     - password(string)
+    - password_length(integer)
     - method(integer)
     - delete_flag(boolean)
     - created_at(timestamp)
