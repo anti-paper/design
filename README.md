@@ -388,8 +388,6 @@
     - order(integer)
     - user_id(integer)
     - delete_flag(boolean)
-    - created_at(timestamp)
-    - updated_at(timestamp)
     - deleted_at(timestamp)
   - 主キー
     - id
@@ -405,7 +403,6 @@
     - times(integer)
     - user_id(integer)
     - delete_flag(boolean)
-    - updated_at(timestamp)
   - 主キー
     - id
   - リレーション
