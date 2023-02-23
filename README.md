@@ -325,7 +325,7 @@
   - テーブル名
     - users
   - カラム（型）
-    - id(bigIncrement)
+    - id(increments)
     - name(string)
     - password(string)
     - password_length(integer)
@@ -350,9 +350,9 @@
   - テーブル名
     - tokens
   - カラム（型）
-    - id(bigIncrement)
+    - id(increments)
     - token(string)
-    - user_id(bigInteger)
+    - user_id(integer)
     - created_at(timestamp)
     - expired_at(timestamp)
   - 主キー
@@ -365,11 +365,11 @@
   - テーブル名
     - logs
   - カラム（型）
-    - id(bigIncrement)
+    - id(increments)
     - log_date(timestamp)
     - menu(string)
     - times(integer)
-    - user_id(bigInteger)
+    - user_id(integer)
     - delete_flag(boolean)
     - created_at(timestamp)
     - deleted_at(timestamp)
@@ -383,10 +383,10 @@
   - テーブル名
     - menus
   - カラム（型）
-    - id(bigIncrement)
+    - id(increments)
     - menu(string)
     - order(integer)
-    - user_id(bigInteger)
+    - user_id(integer)
     - delete_flag(boolean)
     - created_at(timestamp)
     - updated_at(timestamp)
@@ -401,9 +401,9 @@
   - テーブル名
     - times
   - カラム（型）
-    - id(bigIncrement)
+    - id(increments)
     - times(integer)
-    - user_id(bigInteger)
+    - user_id(integer)
     - delete_flag(boolean)
     - updated_at(timestamp)
   - 主キー
