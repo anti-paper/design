@@ -339,7 +339,7 @@
   - リレーション
     - id
       - tokens-user_id
-        - 一対多
+        - 一対一
       - logs-user_id
         - 一対多
       - menus-user_id
@@ -360,7 +360,7 @@
   - リレーション
     - user_id
       - users-id
-        - 多対一
+        - 一対一
 - 筋トレ記録
   - テーブル名
     - logs
